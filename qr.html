@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mã QR Hạnh Phúc 💍</title>
+    <style>
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; overflow: hidden; }
+        
+        body {
+            display: grid;
+            place-items: center;
+            background: #0f1226;
+            background: radial-gradient(circle at center, #1e2447 0%, #05060d 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Tạo hiệu ứng tim bay ở nền */
+        .hearts {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .wrapper {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 30px;
+            border-radius: 30px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3), 0 20px 50px rgba(0,0,0,0.6);
+            text-align: center;
+            max-width: 380px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+            animation: float 4s ease-in-out infinite; /* Card nhấp nhô */
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .text {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(45deg, #d4af37, #f3d9a4, #b89c4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .qr-container {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 20px;
+            border: 2px solid #f3d9a4;
+            position: relative;
+            box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        /* Hiệu ứng hào quang quanh QR */
+        .qr-container::after {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #d4af37, transparent, #f3d9a4);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05); /* Phóng to nhẹ khi di chuột */
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6d6d6d;
+            font-style: italic;
+        }
+
+        /* CSS trái tim bay */
+        .heart {
+            position: absolute;
+            color: rgba(212, 175, 55, 0.4);
+            font-size: 20px;
+            animation: rise 10s infinite linear;
+            bottom: -20px;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hearts" id="heartsContainer"></div>
+
+    <div class="wrapper">
+        <div class="text">✨ Secret nè ✨</div>
+        <div class="qr-container">
+            <img id="qr" alt="Đang tạo mã QR đặc biệt...">
+        </div>
+        <div class="note">Quét để mở món quà bí mật 🎁</div>
+    </div>
+
+    <script>
+        // Tạo hiệu ứng tim bay ngẫu nhiên
+        function createHeart() {
+            const container = document.getElementById('heartsContainer');
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💍'; // Bạn có thể thay bằng '🤍' hoặc '✨'
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            heart.style.opacity = Math.random();
+            heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+            
+            container.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 10000);
+        }
+        setInterval(createHeart, 400);
+
+        // Khởi tạo mã QR
+        (function init() {
+            const qrImg = document.getElementById('qr');
+            
+            // THAY LINK CỦA BẠN TẠI ĐÂY
+            const targetUrl = 'https://brilliant-rolypoly-a9c4d8.netlify.app/index.html'; 
+            
+            // API QR với màu sắc tùy chỉnh (color=1e2447 là màu xanh navy đậm sang trọng)
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(targetUrl)}&bgcolor=ffffff&color=1e2447&margin=2`;
+            
+            qrImg.src = qrApiUrl;
+        })();
+    </script>
+</body>
+</html>
